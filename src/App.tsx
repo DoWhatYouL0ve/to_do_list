@@ -1,26 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './reset.css';
+import './AppStyles.css'
+import {TaskPropsType, ToDoList} from "./ToDoList";
 
 function App() {
+
+    let task1: Array<TaskPropsType> = [
+        {id: 1, title: 'HTML / CSS', isDone: true},
+        {id: 2, title: 'JAVASCRIPT', isDone: true},
+        {id: 3, title: 'REACT', isDone: false}
+    ]
+
+    let task2: Array<TaskPropsType> = [
+        {id: 1, title: 'Bread', isDone: true},
+        {id: 2, title: 'Milk', isDone: false},
+        {id: 3, title: 'Water', isDone: false}
+    ]
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ToDoList title={'What to learn'} tasks={task1}/>
+      <ToDoList title={'What to buy'} tasks={task2}/>
     </div>
   );
 }
+
+
 
 export default App;
