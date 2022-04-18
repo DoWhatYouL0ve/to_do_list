@@ -36,7 +36,13 @@ function App() {
         let newTasks = [newTask, ...task]
         setTask(newTasks)
     }
-
+    const changeTaskStatus = (taskId: string, isDone: boolean) => {
+        let newTask = task.find((t) => t.id === taskId)
+        if (newTask) {
+            newTask.isDone = isDone
+            setTask([...task])
+        }
+    }
     const changeFilter = (FilterChangedType: FilterValueType) => {
         setFilter(FilterChangedType)
     }
@@ -58,6 +64,8 @@ function App() {
                 onClickDeleteTask={onClickDeleteTask}
                 changeFilter={changeFilter}
                 addTask={addTask}
+                changeTaskStatus={changeTaskStatus}
+                filter={filter}
             />
             {/*<ToDoList
                 title={'What to buy'}
