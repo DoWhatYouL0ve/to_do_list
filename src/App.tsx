@@ -3,6 +3,7 @@ import './reset.css'
 import './AppStyles.css'
 import { TaskPropsType, ToDoList } from './ToDoList'
 import { v1 } from 'uuid'
+import { AddItemForm } from './Components/AddItemForm/AddItemForm'
 
 export type FilterValueType = 'all' | 'active' | 'completed'
 export type TodoListsPropsType = {
@@ -10,17 +11,20 @@ export type TodoListsPropsType = {
     title: string
     filter: FilterValueType
 }
+export type TaskStateType = {
+    [key: string]: Array<TaskPropsType>
+}
 
 function App() {
     let todoListId1 = v1()
     let todoListId2 = v1()
 
     let [todoLists, setTodoLists] = useState<Array<TodoListsPropsType>>([
-        { id: todoListId1, title: 'What to learn', filter: 'active' },
+        { id: todoListId1, title: 'What to learn', filter: 'all' },
         { id: todoListId2, title: 'What to buy', filter: 'all' },
     ])
 
-    let [tasks, setTasks] = useState({
+    let [tasks, setTasks] = useState<TaskStateType>({
         [todoListId1]: [
             { id: v1(), title: 'HTML / CSS', isDone: true },
             { id: v1(), title: 'JAVASCRIPT', isDone: true },
@@ -60,6 +64,16 @@ function App() {
         setTasks({ ...tasks })
     }
 
+    const addToDoList = (title: string) => {
+        let todoList: TodoListsPropsType = {
+            id: v1(),
+            title: title,
+            filter: 'all',
+        }
+        setTodoLists([todoList, ...todoLists])
+        setTasks({ ...tasks, [todoList.id]: [] })
+    }
+
     const changeTaskStatus = (
         todoListId: string,
         taskId: string,
@@ -68,6 +82,17 @@ function App() {
         let newTask = tasks[todoListId].find((t) => t.id === taskId)
         if (newTask) {
             newTask.isDone = isDone
+            setTasks({ ...tasks })
+        }
+    }
+    const onChangeTaskTitle = (
+        taskId: string,
+        newTitle: string,
+        todoListId: string
+    ) => {
+        let newTask = tasks[todoListId].find((t) => t.id === taskId)
+        if (newTask) {
+            newTask.title = newTitle
             setTasks({ ...tasks })
         }
     }
@@ -92,9 +117,17 @@ function App() {
         // set a new list of tasks without related to deleted todoList
         setTasks({ ...tasks })
     }
+    const onChangeToDoListTitle = (todoListId: string, newTitle: string) => {
+        let todoList = todoLists.find((td) => td.id === todoListId)
+        if (todoList) {
+            todoList.title = newTitle
+            setTodoLists([...todoLists])
+        }
+    }
 
     return (
         <div className="App">
+            <AddItemForm addItem={addToDoList} />
             {todoLists.map((td) => {
                 let TasksForToDoList = tasks[td.id]
                 if (td.filter === 'completed') {
@@ -115,6 +148,8 @@ function App() {
                         changeTaskStatus={changeTaskStatus}
                         filter={td.filter}
                         deleteToDoList={deleteToDoList}
+                        onChangeTaskTitle={onChangeTaskTitle}
+                        onChangeToDoListTitle={onChangeToDoListTitle}
                     />
                 )
             })}
