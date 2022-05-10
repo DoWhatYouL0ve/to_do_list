@@ -3,6 +3,10 @@ import { FilterValueType } from './App'
 import style from './ToDoList.module.css'
 import { AddItemForm } from './Components/AddItemForm/AddItemForm'
 import { EditableSpan } from './Components/EditableSpan/EditableSpan'
+import { Button, ButtonGroup, IconButton } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
+import Checkbox from '@mui/material/Checkbox'
+import ClearIcon from '@mui/icons-material/Clear'
 
 export type TaskPropsType = {
     id: string
@@ -60,7 +64,9 @@ export const ToDoList = (props: ToDoListPropsType) => {
                     title={props.title}
                     onChange={onChangeToDoListTitleHandler}
                 />
-                <button onClick={deleteToDoList}>x</button>
+                <IconButton aria-label="delete" onClick={deleteToDoList}>
+                    <DeleteIcon />
+                </IconButton>
             </h3>
             <div>
                 <AddItemForm addItem={addTaskHandler} />
@@ -91,8 +97,7 @@ export const ToDoList = (props: ToDoListPropsType) => {
                                 key={t.id}
                                 className={t.isDone ? style.isDone : ''}
                             >
-                                <input
-                                    type="checkbox"
+                                <Checkbox
                                     checked={t.isDone}
                                     onChange={onChangeCheckBoxHandler}
                                 />
@@ -100,40 +105,55 @@ export const ToDoList = (props: ToDoListPropsType) => {
                                     title={t.title}
                                     onChange={onChangeTaskTitleHandler}
                                 />
-                                <button onClick={onClickDeleteTaskHandler}>
-                                    x
-                                </button>
+                                <IconButton
+                                    aria-label="delete"
+                                    onClick={onClickDeleteTaskHandler}
+                                >
+                                    <ClearIcon />
+                                </IconButton>
                             </li>
                         )
                     })}
                 </ul>
                 <div>
-                    <button
-                        onClick={useFilterAll}
-                        className={
-                            props.filter === 'all' ? style.activeFilter : ''
-                        }
+                    <ButtonGroup
+                        variant="outlined"
+                        aria-label="outlined primary button group"
                     >
-                        All
-                    </button>
-                    <button
-                        onClick={useFilterActive}
-                        className={
-                            props.filter === 'active' ? style.activeFilter : ''
-                        }
-                    >
-                        Active
-                    </button>
-                    <button
-                        onClick={useFilterCompleted}
-                        className={
-                            props.filter === 'completed'
-                                ? style.activeFilter
-                                : ''
-                        }
-                    >
-                        Completed
-                    </button>
+                        <Button
+                            color={'success'}
+                            onClick={useFilterAll}
+                            variant={
+                                props.filter === 'all'
+                                    ? 'contained'
+                                    : 'outlined'
+                            }
+                        >
+                            All
+                        </Button>
+                        <Button
+                            color={'primary'}
+                            onClick={useFilterActive}
+                            variant={
+                                props.filter === 'active'
+                                    ? 'contained'
+                                    : 'outlined'
+                            }
+                        >
+                            Active
+                        </Button>
+                        <Button
+                            color={'secondary'}
+                            onClick={useFilterCompleted}
+                            variant={
+                                props.filter === 'completed'
+                                    ? 'contained'
+                                    : 'outlined'
+                            }
+                        >
+                            Completed
+                        </Button>
+                    </ButtonGroup>
                 </div>
             </div>
         </div>

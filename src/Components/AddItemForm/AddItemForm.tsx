@@ -1,5 +1,8 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react'
 import style from '../AddItemForm/AddItemForm.module.css'
+import { TextField } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 
 export type AddItemFormPropsType = {
     addItem: (newTaskTitle: string) => void
@@ -35,15 +38,24 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
 
     return (
         <div>
-            <input
+            <TextField
+                id="standard-basic"
+                label="Type here..."
+                variant="outlined"
                 type="text"
                 value={newTaskTitle}
                 onChange={onChangeHandler}
                 onKeyPress={onKeyPressEventHandler}
-                className={error ? style.error : ''}
+                error={!!error}
+                helperText={error && 'Title is required!'}
             />
-            <button onClick={addTaskHandler}>+</button>
-            {error && <div className={style.errorMessage}>{error}</div>}
+            <IconButton
+                onClick={addTaskHandler}
+                color={'primary'}
+                size={'large'}
+            >
+                <AddCircleOutlineIcon />
+            </IconButton>
         </div>
     )
 }

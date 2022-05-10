@@ -1,4 +1,6 @@
 import React, { ChangeEvent, useState } from 'react'
+import style from '../AddItemForm/AddItemForm.module.css'
+import { TextField } from '@mui/material'
 
 export type EditableSpanPropsType = {
     title: string
@@ -8,26 +10,38 @@ export type EditableSpanPropsType = {
 export const EditableSpan = (props: EditableSpanPropsType) => {
     const [editMode, setEditMode] = useState<boolean>(false)
     const [title, setTitle] = useState('')
+    let [error, setError] = useState<string | null>(null)
 
     const activateEditMode = () => {
         setEditMode(true)
         setTitle(props.title)
     }
     const deactivateEditMode = () => {
-        setEditMode(false)
-        props.onChange(title)
-        setTitle(props.title)
+        if (title) {
+            setEditMode(false)
+            props.onChange(title)
+            setTitle(props.title)
+        } else {
+            setError('Title is required ')
+        }
     }
     const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+        setError('')
         setTitle(e.currentTarget.value)
     }
 
     return editMode ? (
-        <input
+        <TextField
+            id="standard-basic"
+            label="Type here..."
+            variant="standard"
+            type="text"
             value={title}
+            onChange={changeTitle}
             onBlur={deactivateEditMode}
             autoFocus={true}
-            onChange={changeTitle}
+            error={!!error}
+            helperText={error && 'value is required'}
         />
     ) : (
         <span onDoubleClick={activateEditMode}>{props.title}</span>
