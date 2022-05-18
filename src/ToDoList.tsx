@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from 'react'
+import React, { ChangeEvent } from 'react'
 import { FilterValueType } from './App'
 import style from './ToDoList.module.css'
 import { AddItemForm } from './Components/AddItemForm/AddItemForm'
@@ -14,7 +14,7 @@ export type TaskPropsType = {
     isDone: boolean
 }
 
-type ToDoListPropsType = {
+export type ToDoListPropsType = {
     title: string
     tasks: Array<TaskPropsType>
     onClickDeleteTask: (todoListId: string, id: string) => void

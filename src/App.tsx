@@ -49,12 +49,6 @@ function App() {
         ],
     })
 
-    /*let task2: Array<TaskPropsType> = [
-        { id: 1, title: 'Bread', isDone: true },
-        { id: 2, title: 'Milk', isDone: false },
-        { id: 3, title: 'Water', isDone: false },
-    ]*/
-
     const onClickDeleteTask = (todoListId: string, id: string) => {
         let task = tasks[todoListId]
         let newTask = task.filter((t) => t.id !== id)
@@ -127,6 +121,7 @@ function App() {
         // set a new list of tasks without related to deleted todoList
         setTasks({ ...tasks })
     }
+
     const onChangeToDoListTitle = (todoListId: string, newTitle: string) => {
         let todoList = todoLists.find((td) => td.id === todoListId)
         if (todoList) {
