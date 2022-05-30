@@ -1,4 +1,4 @@
-import { FilterValueType, TodoListsPropsType } from '../App'
+import { FilterValueType, TodoListsPropsType } from '../AppWithRedux'
 import {
     addTodoListAC,
     changeTodoListsFilterAC,
@@ -42,7 +42,7 @@ test('correct todolist should be added', () => {
     )
 
     expect(endState.length).toBe(3)
-    expect(endState[2].title).toBe(newTodolistTitle)
+    expect(endState[0].title).toBe(newTodolistTitle)
 })
 
 test('correct todolist should change its name', () => {

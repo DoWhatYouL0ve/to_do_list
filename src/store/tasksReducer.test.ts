@@ -5,7 +5,7 @@ import {
     removeTaskAC,
     taskReducer,
 } from './tasksReducer'
-import { TaskStateType } from '../App'
+import { TaskStateType } from '../AppWithRedux'
 import { addTodoListAC, removeTodoListAC } from './todolistsReducer'
 
 test('remove task test', () => {
