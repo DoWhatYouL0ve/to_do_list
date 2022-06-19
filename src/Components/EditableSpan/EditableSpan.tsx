@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useCallback, useState } from 'react'
 import style from '../AddItemForm/AddItemForm.module.css'
 import { TextField } from '@mui/material'
 
@@ -7,16 +7,18 @@ export type EditableSpanPropsType = {
     onChange: (value: string) => void
 }
 
-export const EditableSpan = (props: EditableSpanPropsType) => {
+export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
     const [editMode, setEditMode] = useState<boolean>(false)
     const [title, setTitle] = useState('')
     let [error, setError] = useState<string | null>(null)
 
-    const activateEditMode = () => {
+    const activateEditMode = useCallback(() => {
         setEditMode(true)
         setTitle(props.title)
-    }
+    }, [])
     const deactivateEditMode = () => {
+        // eslint-disable-next-line no-debugger
+        debugger
         if (title) {
             setEditMode(false)
             props.onChange(title)
@@ -25,10 +27,12 @@ export const EditableSpan = (props: EditableSpanPropsType) => {
             setError('Title is required ')
         }
     }
-    const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-        setError('')
+    const changeTitle = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        // eslint-disable-next-line no-debugger
+        debugger
+        setError(null)
         setTitle(e.currentTarget.value)
-    }
+    }, [])
 
     return editMode ? (
         <TextField
@@ -46,4 +50,4 @@ export const EditableSpan = (props: EditableSpanPropsType) => {
     ) : (
         <span onDoubleClick={activateEditMode}>{props.title}</span>
     )
-}
+})

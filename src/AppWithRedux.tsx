@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import './reset.css'
 import './AppStyles.css'
 import { TaskPropsType, ToDoList } from './ToDoList'
@@ -37,28 +37,34 @@ function AppWithRedux() {
     const todoLists = useSelector<RootStateType, TodoListsPropsType[]>(
         (state) => state.todoListsReducer
     )
-    const tasks = useSelector<RootStateType, TaskStateType>(
-        (state) => state.taskReducer
+
+    const addToDoList = useCallback(
+        (title: string) => {
+            dispatch(addTodoListAC(title))
+        },
+        [dispatch]
     )
 
-    const addToDoList = (title: string) => {
-        dispatch(addTodoListAC(title))
-    }
+    const changeFilter = useCallback(
+        (FilterChangedType: FilterValueType, todoListId: string) => {
+            dispatch(changeTodoListsFilterAC(todoListId, FilterChangedType))
+        },
+        [dispatch]
+    )
 
-    const changeFilter = (
-        FilterChangedType: FilterValueType,
-        todoListId: string
-    ) => {
-        dispatch(changeTodoListsFilterAC(todoListId, FilterChangedType))
-    }
+    const deleteToDoList = useCallback(
+        (todoListId: string) => {
+            dispatch(removeTodoListAC(todoListId))
+        },
+        [dispatch]
+    )
 
-    const deleteToDoList = (todoListId: string) => {
-        dispatch(removeTodoListAC(todoListId))
-    }
-
-    const onChangeToDoListTitle = (todoListId: string, newTitle: string) => {
-        dispatch(changeTodoListsTitleAC(todoListId, newTitle))
-    }
+    const onChangeToDoListTitle = useCallback(
+        (todoListId: string, newTitle: string) => {
+            dispatch(changeTodoListsTitleAC(todoListId, newTitle))
+        },
+        [dispatch]
+    )
 
     return (
         <div className="App">

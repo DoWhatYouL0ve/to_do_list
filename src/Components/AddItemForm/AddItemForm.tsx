@@ -8,17 +8,19 @@ export type AddItemFormPropsType = {
     addItem: (newTaskTitle: string) => void
 }
 
-export const AddItemForm = (props: AddItemFormPropsType) => {
+export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
     const [newTaskTitle, setNewTaskTitle] = useState('')
     let [error, setError] = useState<string | null>(null)
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTaskTitle(e.currentTarget.value)
-        setError('')
+        setError(null)
     }
     const onKeyPressEventHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (newTaskTitle.trim() !== '') {
+        if (error !== null) {
             setError(null)
+        }
+        if (newTaskTitle.trim() !== '') {
             if (e.code === 'Enter') {
                 props.addItem(newTaskTitle.trim())
                 setNewTaskTitle('')
@@ -58,4 +60,4 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
             </IconButton>
         </div>
     )
-}
+})
