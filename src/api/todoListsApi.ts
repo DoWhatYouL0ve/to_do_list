@@ -24,13 +24,13 @@ export type ResponseType<D = {}> = {
 export type TodolistTaskPropsType = {
     id: string
     title: string
-    description: string | null
+    description: string
     todoListId: string
     order: number
     status: number
     priority: number
-    startDate: string | null
-    deadline: string | null
+    startDate: string
+    deadline: string
     addedDate: string
 }
 
@@ -67,13 +67,13 @@ export const todoListTaskApi = {
         )
     },
     createTodoListsTasks(todolistId: string, title: string) {
-        return apiInstance.post<ResponseType<{ item: TodolistTaskPropsType }>>(
+        return apiInstance.post<ResponseType<TodolistTaskPropsType>>(
             `todo-lists/${todolistId}/tasks`,
             { title }
         )
     },
     updateTodoListsTasks(todolistId: string, taskId: string, title: string) {
-        return apiInstance.put<ResponseType<{ item: TodolistTaskPropsType }>>(
+        return apiInstance.put<ResponseType<TodolistTaskPropsType>>(
             `todo-lists/${todolistId}/tasks/${taskId}`,
             {
                 title,
